@@ -1,3 +1,4 @@
+/*
 package com.hxq.reservation.view;
 
 import android.app.Activity;
@@ -15,9 +16,11 @@ import com.hxq.reservation.bean.Lecture;
 
 import java.util.List;
 
+*/
 /**
  * Created by wnw on 2018/4/21.
- */
+ *//*
+
 
 public class LectureAdapter extends RecyclerView.Adapter<LectureAdapter.VHolder>{
 
@@ -43,7 +46,8 @@ public class LectureAdapter extends RecyclerView.Adapter<LectureAdapter.VHolder>
     public void onBindViewHolder(LectureAdapter.VHolder holder, final int position) {
         Lecture lecture = list.get(position);
 
-        /*User user = list.get(position);
+        */
+/*User user = list.get(position);
         holder.sidTv.setText("学号：" + user.getsId());
         holder.nameTv.setText("姓名：" + user.getName());
         holder.passwordTv.setText("密码：" + user.getPassword());
@@ -54,7 +58,8 @@ public class LectureAdapter extends RecyclerView.Adapter<LectureAdapter.VHolder>
                         "user", list.get(position)), 1001);
                 ((Activity)context).overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             }
-        });*/
+        });*//*
+
     }
 
     @Override
@@ -66,14 +71,15 @@ public class LectureAdapter extends RecyclerView.Adapter<LectureAdapter.VHolder>
         RelativeLayout itemRl;
         TextView sidTv;
         TextView nameTv;
-        TextView passwordTv;
+        TextView passwordTv; 
 
         public VHolder(View itemView) {
-            super(itemView);/*
+            super(itemView);
             sidTv = (TextView)itemView.findViewById(R.id.sid);
             nameTv = (TextView)itemView.findViewById(R.id.name);
             passwordTv = (TextView)itemView.findViewById(R.id.password);
-            itemRl = (RelativeLayout)itemView.findViewById(R.id.rl);*/
+            itemRl = (RelativeLayout)itemView.findViewById(R.id.rl);
         }
     }
 }
+*/

@@ -3,11 +3,11 @@
     <item
         android:id = "@+id/nav_record"
         android:icon="@drawable/icon_record"
-        android:title="考勤记录"/>
-    <item
+        android:title="游戏记录"/>
+    <!--<item
         android:id = "@+id/nav_attendance"
         android:icon="@drawable/icon_attendance"
-        android:title="考勤计划"/>
+        android:title="考勤计划"/>-->
     <item
         android:id = "@+id/nav_setting"
         android:icon="@drawable/icon_settings"

@@ -15,7 +15,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="关于讲座预约"
+            android:text="关于游戏"
             android:textColor="#ffffff"
             android:layout_centerInParent="true"
             android:gravity="center"/>
@@ -24,5 +24,5 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:text="我是黄雪倩童鞋的毕设哦"/>
+        android:text="我是桂林电子科技大学的毕设哦"/>
 </LinearLayout>

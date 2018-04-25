@@ -13,7 +13,7 @@
     tools:context=".view.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
-    <android.support.v7.widget.RecyclerView
+   <!-- <android.support.v7.widget.RecyclerView
         android:id="@+id/home_rv_timeline"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -25,5 +25,9 @@
         android:visibility="gone"
         android:text="无任何记录，点我刷新哦"
         android:gravity="center"
-        android:textColor="#ffff"/>
+        android:textColor="#ffff"/>-->
+    <com.hxq.reservation.view.draw.First
+        android:id="@+id/first"
+        android:layout_width="match_parent"
+        android:layout_height="360dp" />
 </RelativeLayout>

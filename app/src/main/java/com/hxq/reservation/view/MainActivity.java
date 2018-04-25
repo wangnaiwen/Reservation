@@ -3,6 +3,7 @@ package com.hxq.reservation.view;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -22,6 +23,7 @@ import android.widget.TextView;
 
 import com.hxq.reservation.R;
 import com.hxq.reservation.bean.Lecture;
+import com.hxq.reservation.view.draw.First;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,10 +43,12 @@ public class MainActivity extends AppCompatActivity
     private TextView nothingTv;
 
     RecyclerView mRecyclerView;
-    private LectureAdapter lectureAdapter;
+    /*private LectureAdapter lectureAdapter;*/
     private List<Lecture> lectureList = new ArrayList<>();
 
     ProgressDialog progressDialog ;
+
+    private First first;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +62,9 @@ public class MainActivity extends AppCompatActivity
      * 初始化控件
      * */
     private void initView(){
+        first = (First)findViewById(R.id.first);
+        //first.draw(new Canvas());
+
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("加载中，请稍等...");
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -72,19 +79,19 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        mRecyclerView = (RecyclerView)findViewById(R.id.home_rv_timeline);
-        mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        //mRecyclerView = (RecyclerView)findViewById(R.id .home_rv_timeline);
+        // mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
 
-        lectureAdapter = new LectureAdapter(this, lectureList);
-        mRecyclerView.setAdapter(lectureAdapter);
+        /*lectureAdapter = new LectureAdapter(this, lectureList);
+        mRecyclerView.setAdapter(lectureAdapter);*/
 
-        nothingTv = (TextView)findViewById(R.id.tv_nothing);
+        /*nothingTv = (TextView)findViewById(R.id.tv_nothing);
         nothingTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //findTodayAttendance();
             }
-        });
+        });*/
 
         ssidTv = (TextView)navigationView.getHeaderView(0).findViewById(R.id.tv_ssid);
         nameTv = (TextView)navigationView.getHeaderView(0).findViewById(R.id.tv_name);
@@ -92,22 +99,17 @@ public class MainActivity extends AppCompatActivity
         SharedPreferences sharedPreferences = getSharedPreferences("account",MODE_PRIVATE);
         String sid = sharedPreferences.getString("id", "");
         String name = sharedPreferences.getString("name", "");
-        ssidTv.setText(sid);
-        nameTv.setText(name);
+        //ssidTv.setText(sid);
+        //nameTv.setText(name);
 
         userIcon = (CircleImageView)navigationView.getHeaderView(0).findViewById(R.id.icon_user);
         userIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //头像点击
-                /*Intent intent = new Intent(MainActivity.this, ImgUploadActivity.class);
-                //intent.putExtra("user", user);
-                startActivityForResult(intent, 4);
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);*/
+
             }
         });
 
-        //findTodayAttendance();
     }
 
     @Override
@@ -118,8 +120,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 1001){
-            //指纹识别打卡回来
-            //findTodayAttendance();
+
         }
     }
 
@@ -157,11 +158,11 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-       /* if (id == R.id.nav_setting) {
+       if (id == R.id.nav_setting) {
             Intent intent = new Intent(MainActivity.this, SettingActivity.class);
             startActivity(intent);
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-        }else if (id == R.id.nav_record){
+        }/*else if (id == R.id.nav_record){
             Intent intent = new Intent(MainActivity.this, RecordActivity.class);
             startActivity(intent);
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
@@ -172,8 +173,4 @@ public class MainActivity extends AppCompatActivity
         }*/
         return true;
     }
-
-
-    //查找今天打卡计划以及打开记录
-
 }

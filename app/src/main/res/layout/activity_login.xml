@@ -19,7 +19,7 @@
             android:id="@+id/login_et_sid"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:hint="学号"
+            android:hint="用户名"
             android:textSize="15sp"
             android:textColorHint="#ffff"
             android:textColor="#ffff"
