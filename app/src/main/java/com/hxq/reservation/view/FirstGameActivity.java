@@ -6,20 +6,27 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.hxq.reservation.R;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 /**
  * Created by wnw on 2018/5/1.
  */
 
-public class FirstGameActivity extends Activity{
+public class FirstGameActivity extends AppCompatActivity{
 
     private TextView timeTv;
     private String answer[] = new String[]{"6","5","8","9","4","3","1","11","7","10"};
+
+    private static final int GAME_TIMEOUT_TIME = 300;
 
     private TextView tv1;
     private TextView tv2;
@@ -40,16 +47,19 @@ public class FirstGameActivity extends Activity{
     //计时
     int i = 0;
 
+    private Timer timer = new Timer();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first);
+        Log.e("wnw", "第一关");
         initView();
+        startTime();
     }
 
     private void initView(){
         timeTv = (TextView)findViewById(R.id.tv_time);
-        startTime();
 
         tv1 = (TextView)findViewById(R.id.tv1);
         tv2 = (TextView)findViewById(R.id.tv2);
@@ -151,7 +161,8 @@ public class FirstGameActivity extends Activity{
                 tv11.setClickable(false);
             }
         });
-
+        createGameOverDialog();
+        createDialog();
     }
 
     //重置所有的视图
@@ -160,7 +171,7 @@ public class FirstGameActivity extends Activity{
         i = 0;
         j = 0;
 
-        timeTv.setText("第一关：0S");
+        timeTv.setText("第一关 ：0S");
 
         tv1.setClickable(true);
         tv1.setBackgroundResource(R.drawable.bg_btn);
@@ -214,22 +225,60 @@ public class FirstGameActivity extends Activity{
             }
         }else {
             j ++;
-            //答案错误,结束游戏
-            new AlertDialog.Builder(this).setMessage("抱歉，答案错误，是否再来一局？")
-                    .setTitle("闯关失败")
-                    .setPositiveButton("再来一局", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            resetView();
-                            startTime();
-                        }
-                    }).setNegativeButton("不玩了", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            finish();
-                        }
-            }).show();
+            gameOver();
             return false;
+        }
+    }
+
+    /**
+     * 游戏结束
+     * */
+    private AlertDialog gameDialog;
+    private void createGameOverDialog(){
+        gameDialog = new AlertDialog.Builder(this).setMessage("抱歉，答案错误，是否再来一局？")
+                .setTitle("闯关失败")
+                .setPositiveButton("再来一局", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        resetView();
+                        restartTime();
+                    }
+                }).setNegativeButton("不玩了", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                finish();
+            }
+        }).create();
+    }
+
+    private void gameOver(){
+        //答案错误,结束游戏
+       if (!gameDialog.isShowing()){
+           gameDialog.show();
+       }
+    }
+
+    private AlertDialog dialog;
+    private void createDialog(){
+        dialog = new AlertDialog.Builder(this).setMessage("抱歉，闯关时间超过" + GAME_TIMEOUT_TIME + "S!!")
+                .setTitle("闯关失败")
+                .setPositiveButton("再来一局", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        resetView();
+                        restartTime();
+                    }
+                }).setNegativeButton("不玩了", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        finish();
+                    }
+                }).create();
+    }
+    //游戏超时
+    private void gameTimeout(){
+        if (!dialog.isShowing() && !gameDialog.isShowing()){
+            dialog.show();
         }
     }
 
@@ -238,29 +287,32 @@ public class FirstGameActivity extends Activity{
 
     }
 
-    //计时
-    private void startTime(){
-        i = 0;
-        while (i != 300)
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(1000);
-                    i ++;
-                    handler.sendMessage(new Message());
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+    TimerTask timerTask = new TimerTask() {
+        @Override
+        public void run() {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (i == GAME_TIMEOUT_TIME){
+                        gameTimeout();
+                    }else {
+                        timeTv.setText("第一关 : " + i + "S");
+                        i ++;
+                    }
                 }
-            }
-        });
+            });
+        }
+    };
+
+    //开始计时
+    private void startTime(){
+        timer.schedule(timerTask, 1000, 1000);
+        i = 0;
+        timeTv.setText("第一关 : " + i + "S");
     }
 
-    private Handler handler = new Handler(new Handler.Callback() {
-        @Override
-        public boolean handleMessage(Message message) {
-            timeTv.setText("第一关" + i + "S");
-            return false;
-        }
-    });
+    private void restartTime(){
+        i = 0;
+        timeTv.setText("第一关 : " + i + "S");
+    }
 }

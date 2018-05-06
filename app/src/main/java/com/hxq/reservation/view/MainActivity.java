@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity
      * 初始化控件
      * */
     private void initView(){
-        first = (First)findViewById(R.id.first);
+        //first = (First)findViewById(R.id.first);
         //first.draw(new Canvas());
 
         progressDialog = new ProgressDialog(this);
