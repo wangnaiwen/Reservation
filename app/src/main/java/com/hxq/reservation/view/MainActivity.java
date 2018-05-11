@@ -110,6 +110,36 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        findViewById(R.id.one).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, FirstGameActivity.class));
+            }
+        });
+        findViewById(R.id.tow).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, TowActivity.class));
+            }
+        });
+        findViewById(R.id.three).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, ThreeActivity.class));
+            }
+        });
+        findViewById(R.id.four).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, FourActivity.class));
+            }
+        });
+        findViewById(R.id.five).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, FiveActivity.class));
+            }
+        });
     }
 
     @Override

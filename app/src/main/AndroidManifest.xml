@@ -42,11 +42,11 @@
 
         <activity
             android:name=".view.LoginActivity">
-            <!--<intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
+            </intent-filter>
         </activity>
         <activity android:name=".view.AboutActivity"/>
         <activity android:name=".view.SettingActivity"/>
@@ -56,12 +56,16 @@
 
         </activity>
         <activity android:name=".view.FirstGameActivity">
-            <intent-filter>
+            <!--<intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            </intent-filter>-->
         </activity>
+        <activity android:name=".view.TowActivity"/>
+        <activity android:name=".view.ThreeActivity"/>
+        <activity android:name=".view.FourActivity"/>
+        <activity android:name=".view.FiveActivity"/>
     </application>
 
 </manifest>
