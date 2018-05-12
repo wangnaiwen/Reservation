@@ -19,7 +19,7 @@ import java.util.TimerTask;
 
 public class FourActivity extends AppCompatActivity {
     private TextView timeTv;
-    private String answer[] = new String[]{"10","5","4","6","11","2","1","7","8","9"};
+    private String answer[] = new String[]{"3","9","4","7","5","1","6","11","2","10","8"};
 
     private static final int GAME_TIMEOUT_TIME = 300;
 
@@ -32,6 +32,8 @@ public class FourActivity extends AppCompatActivity {
     private TextView tv7;
     private TextView tv8;
     private TextView tv9;
+    private TextView tv10;
+    private TextView tv11;
 
 
     //答到第一个了
@@ -47,8 +49,8 @@ public class FourActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_four);
         Log.e("wnw", "第四关");
-        //initView();
-        //startTime();
+        initView();
+        startTime();
     }
 
     private void initView(){
@@ -63,6 +65,8 @@ public class FourActivity extends AppCompatActivity {
         tv7 = (TextView)findViewById(R.id.tv7);
         tv8 = (TextView)findViewById(R.id.tv8);
         tv9 = (TextView)findViewById(R.id.tv9);
+        tv10 = (TextView)findViewById(R.id.tv10);
+        tv11 = (TextView)findViewById(R.id.tv11);
 
         tv1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -136,6 +140,22 @@ public class FourActivity extends AppCompatActivity {
                 tv9.setClickable(false);
             }
         });
+        tv10.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                checkAnswer(10);
+                tv10.setBackgroundResource(R.drawable.bg_btn_green);
+                tv10.setClickable(false);
+            }
+        });
+        tv11.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                checkAnswer(11);
+                tv11.setBackgroundResource(R.drawable.bg_btn_green);
+                tv11.setClickable(false);
+            }
+        });
         createGameOverDialog();
         createDialog();
     }
@@ -176,6 +196,11 @@ public class FourActivity extends AppCompatActivity {
         tv9.setClickable(true);
         tv9.setBackgroundResource(R.drawable.bg_btn);
 
+        tv10.setClickable(true);
+        tv10.setBackgroundResource(R.drawable.bg_btn);
+
+        tv11.setClickable(true);
+        tv11.setBackgroundResource(R.drawable.bg_btn);
     }
 
     //匹配答案

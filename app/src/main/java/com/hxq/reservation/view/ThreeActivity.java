@@ -19,7 +19,7 @@ import java.util.TimerTask;
 
 public class ThreeActivity extends AppCompatActivity{
     private TextView timeTv;
-    private String answer[] = new String[]{"10","5","4","6","11","2","1","7","8","9"};
+    private String answer[] = new String[]{"8","4","5","7","3","9"," 1","2","6"};
 
     private static final int GAME_TIMEOUT_TIME = 300;
 
@@ -47,8 +47,8 @@ public class ThreeActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_three);
         Log.e("wnw", "第三关");
-//        initView();
-  //      startTime();
+        initView();
+        startTime();
     }
 
     private void initView(){

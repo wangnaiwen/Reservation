@@ -22,11 +22,6 @@ import android.widget.TextView;
 
 
 import com.hxq.reservation.R;
-import com.hxq.reservation.bean.Lecture;
-import com.hxq.reservation.view.draw.First;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -43,12 +38,9 @@ public class MainActivity extends AppCompatActivity
     private TextView nothingTv;
 
     RecyclerView mRecyclerView;
-    /*private LectureAdapter lectureAdapter;*/
-    private List<Lecture> lectureList = new ArrayList<>();
 
     ProgressDialog progressDialog ;
 
-    private First first;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,11 +71,6 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        //mRecyclerView = (RecyclerView)findViewById(R.id .home_rv_timeline);
-        // mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
-
-        /*lectureAdapter = new LectureAdapter(this, lectureList);
-        mRecyclerView.setAdapter(lectureAdapter);*/
 
         /*nothingTv = (TextView)findViewById(R.id.tv_nothing);
         nothingTv.setOnClickListener(new View.OnClickListener() {
@@ -97,10 +84,10 @@ public class MainActivity extends AppCompatActivity
         nameTv = (TextView)navigationView.getHeaderView(0).findViewById(R.id.tv_name);
 
         SharedPreferences sharedPreferences = getSharedPreferences("account",MODE_PRIVATE);
-        String sid = sharedPreferences.getString("id", "");
-        String name = sharedPreferences.getString("name", "");
-        //ssidTv.setText(sid);
-        //nameTv.setText(name);
+        String sid = sharedPreferences.getString("phone", "");
+        String name = sharedPreferences.getString("nickname", "");
+        ssidTv.setText(sid);
+        nameTv.setText(name);
 
         userIcon = (CircleImageView)navigationView.getHeaderView(0).findViewById(R.id.icon_user);
         userIcon.setOnClickListener(new View.OnClickListener() {

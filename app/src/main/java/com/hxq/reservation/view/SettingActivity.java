@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hxq.reservation.R;
+import com.hxq.reservation.login.LoginActivity;
 import com.hxq.reservation.util.ActivityCollector;
 
 

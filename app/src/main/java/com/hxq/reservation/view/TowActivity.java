@@ -20,7 +20,7 @@ import java.util.TimerTask;
 
 public class TowActivity extends AppCompatActivity {
     private TextView timeTv;
-    private String answer[] = new String[]{"10","5","4","6","11","2","1","7","8","9"};
+    private String answer[] = new String[]{"10","5","4","6","11","2","1","3", "7","8","9"};
 
     private static final int GAME_TIMEOUT_TIME = 300;
 
@@ -50,8 +50,8 @@ public class TowActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tow);
         Log.e("wnw", "第二关");
-//        initView();
-  //      startTime();
+        initView();
+        startTime();
     }
 
     private void initView(){

@@ -33,6 +33,17 @@
     <uses-permission android:name="android.permission.USE_FINGERPRINT"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
+    <!-- 这是mob短信需要的权限-->
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -40,8 +51,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity
+        <!--<activity
             android:name=".view.LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+-->
+        <activity android:name=".login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -66,6 +85,13 @@
         <activity android:name=".view.ThreeActivity"/>
         <activity android:name=".view.FourActivity"/>
         <activity android:name=".view.FiveActivity"/>
+
+        <activity android:name=".login.RegisterEditNumAty"/>
+        <activity android:name=".login.LoginGetCodesAty"/>
+        <activity android:name=".login.LoginSetPasswdAty"/>
+        <activity android:name=".login.ResetPasswordActivity"/>
+        <activity android:name=".login.RecoverPasswordActivity"/>
+        <activity android:name=".login.RecoverPasswordGetCodeActivity"/>
     </application>
 
 </manifest>

@@ -19,7 +19,7 @@ import java.util.TimerTask;
 
 public class FiveActivity extends AppCompatActivity {
     private TextView timeTv;
-    private String answer[] = new String[]{"10","5","4","6","11","2","1","7","8","9"};
+    private String answer[] = new String[]{"4","8","6","7","9","5","1","10","2","3"};
 
     private static final int GAME_TIMEOUT_TIME = 300;
 
@@ -32,6 +32,7 @@ public class FiveActivity extends AppCompatActivity {
     private TextView tv7;
     private TextView tv8;
     private TextView tv9;
+    private TextView tv10;
 
 
     //答到第一个了
@@ -47,8 +48,8 @@ public class FiveActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_five);
         Log.e("wnw", "第五关");
-        //initView();
-        //startTime();
+        initView();
+        startTime();
     }
 
     private void initView(){
@@ -63,6 +64,7 @@ public class FiveActivity extends AppCompatActivity {
         tv7 = (TextView)findViewById(R.id.tv7);
         tv8 = (TextView)findViewById(R.id.tv8);
         tv9 = (TextView)findViewById(R.id.tv9);
+        tv9 = (TextView)findViewById(R.id.tv10);
 
         tv1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -136,6 +138,14 @@ public class FiveActivity extends AppCompatActivity {
                 tv9.setClickable(false);
             }
         });
+        tv10.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                checkAnswer(10);
+                tv10.setBackgroundResource(R.drawable.bg_btn_green);
+                tv10.setClickable(false);
+            }
+        });
         createGameOverDialog();
         createDialog();
     }
@@ -175,6 +185,9 @@ public class FiveActivity extends AppCompatActivity {
 
         tv9.setClickable(true);
         tv9.setBackgroundResource(R.drawable.bg_btn);
+
+        tv10.setClickable(true);
+        tv10.setBackgroundResource(R.drawable.bg_btn);
 
     }
 

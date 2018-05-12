@@ -36,4 +36,9 @@
     <color name="income">#7ed321</color>
     <color name="bank_card_bg">#e85b5b</color>
 
+    <color name="colorIconSelected">#0199d6</color>
+    <color name="colorIconDefault">#d1ccc4</color>
+    <color name="colorHomePageBg">#ffffff</color>
+    <color name="aaa">#6b6868</color>
+
 </resources>

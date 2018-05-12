@@ -1,41 +1,26 @@
 package com.hxq.reservation.bean;
 
+import java.io.Serializable;
+
 import cn.bmob.v3.BmobObject;
 import cn.bmob.v3.datatype.BmobFile;
 
 /**
- * Created by wnw on 2018/3/13.
+ * Created by wnw on 2017/5/4.
  */
 
-public class User extends BmobObject {
-    private String sId;
-    private String gender;
-    private String name;
+public class User extends BmobObject implements Serializable{
+    private String phone;
     private String password;
+    private String nickName;
     private BmobFile image;
 
-    public String getsId() {
-        return sId;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setsId(String sId) {
-        this.sId = sId;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getPassword() {
@@ -44,6 +29,14 @@ public class User extends BmobObject {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
     }
 
     public BmobFile getImage() {
