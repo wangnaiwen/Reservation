@@ -60,6 +60,14 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        SharedPreferences sharedPreferences = getSharedPreferences("rule", MODE_PRIVATE);
+        if (sharedPreferences.getBoolean("firstTime",true)){
+            startActivity(new Intent(this, GameRuleActivity.class));
+            SharedPreferences.Editor editor = getSharedPreferences("rule",
+                    MODE_PRIVATE).edit();
+            editor.putBoolean("firstTime", false);
+            editor.apply();
+        }
         initView();
 
     }
@@ -235,6 +243,11 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
         if (id == R.id.action_settings) {
             Intent intent = new Intent(MainActivity.this, SettingActivity.class);
+            startActivity(intent);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            return true;
+        }else if (id == R.id.action_game_rule){
+            Intent intent = new Intent(MainActivity.this, GameRuleActivity.class);
             startActivity(intent);
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             return true;

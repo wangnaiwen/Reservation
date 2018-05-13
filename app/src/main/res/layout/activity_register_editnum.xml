@@ -41,7 +41,7 @@
                 android:id="@+id/login_protocol"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Restaurant用户注册协议"
+                android:text="烽火戏诸侯用户注册协议"
                 android:textColor="#bf275a"
                 android:layout_gravity="center_vertical"
                 android:gravity="left" />
