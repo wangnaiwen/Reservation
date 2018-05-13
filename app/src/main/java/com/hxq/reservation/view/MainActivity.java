@@ -12,18 +12,28 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.hxq.reservation.R;
+import com.hxq.reservation.bean.Score;
 import com.hxq.reservation.service.MusicService;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity
@@ -37,8 +47,10 @@ public class MainActivity extends AppCompatActivity
     private CircleImageView userIcon;
 
     private TextView nothingTv;
-
-    RecyclerView mRecyclerView;
+    private TextView startGameTv;
+    private RecyclerView mRecyclerView;
+    private ScoreAdapter scoreAdapter;
+    private List<Score> scoreList = new ArrayList<>();
 
     ProgressDialog progressDialog ;
 
@@ -57,8 +69,6 @@ public class MainActivity extends AppCompatActivity
      * 初始化控件
      * */
     private void initView(){
-        //first = (First)findViewById(R.id.first);
-        //first.draw(new Canvas());
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("加载中，请稍等...");
@@ -74,14 +84,28 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        mRecyclerView = (RecyclerView)findViewById(R.id.recycler);
+        scoreAdapter = new ScoreAdapter(this, scoreList);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(linearLayoutManager);
+        mRecyclerView.setAdapter(scoreAdapter);
 
-        /*nothingTv = (TextView)findViewById(R.id.tv_nothing);
+        startGameTv = (TextView)findViewById(R.id.start_game);
+        nothingTv = (TextView)findViewById(R.id.tv_nothing);
         nothingTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //findTodayAttendance();
+                findScore();
             }
-        });*/
+        });
+
+        startGameTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.e("Game", "用户点击开始游戏");
+                startGame();
+            }
+        });
 
         ssidTv = (TextView)navigationView.getHeaderView(0).findViewById(R.id.tv_ssid);
         nameTv = (TextView)navigationView.getHeaderView(0).findViewById(R.id.tv_name);
@@ -99,35 +123,50 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
+    }
 
-        findViewById(R.id.one).setOnClickListener(new View.OnClickListener() {
+    //开始游戏
+    private void startGame(){
+        SharedPreferences sharedPreferences = getSharedPreferences("account", MODE_PRIVATE);
+        int gameId = sharedPreferences.getInt("gameId", 0);
+        Log.e("Game", "开始游戏"+ gameId );
+        if (gameId == 0){
+            startActivity(new Intent(this, FirstGameActivity.class));
+        }else if (gameId == 1){
+            startActivity(new Intent(this, TowActivity.class));
+        }else if (gameId == 2){
+            startActivity(new Intent(this, ThreeActivity.class));
+        }else if (gameId == 3){
+            startActivity(new Intent(this, FourActivity.class));
+        }else if (gameId == 4){
+            startActivity(new Intent(this, FiveActivity.class));
+        }else {
+            Toast.makeText(MainActivity.this, "您已通关，更多游戏，敬请期待！ ", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+    //查看排行榜:降序
+    private void findScore(){
+        progressDialog.show();
+        BmobQuery<Score> query = new BmobQuery<>();
+        query.order("-score");
+        query.findObjects(new FindListener<Score>() {
             @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, FirstGameActivity.class));
-            }
-        });
-        findViewById(R.id.tow).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, TowActivity.class));
-            }
-        });
-        findViewById(R.id.three).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, ThreeActivity.class));
-            }
-        });
-        findViewById(R.id.four).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, FourActivity.class));
-            }
-        });
-        findViewById(R.id.five).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, FiveActivity.class));
+            public void done(List<Score> list, BmobException e) {
+                progressDialog.dismiss();
+                if (list == null && e != null && list.size() == 0){
+                    Log.e("Score", "list is null");
+                    nothingTv.setVisibility(View.VISIBLE);
+                    mRecyclerView.setVisibility(View.GONE);
+                }else {
+                    Log.e("Score", "list size is" + scoreList.size());
+                    mRecyclerView.setVisibility(View.VISIBLE);
+                    nothingTv.setVisibility(View.GONE);
+                    scoreList = list;
+                    scoreAdapter.setScoreList(scoreList);
+                    scoreAdapter.notifyDataSetChanged();
+                }
             }
         });
     }
@@ -163,6 +202,7 @@ public class MainActivity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
         playMusic();
+        findScore();
     }
 
     @Override
@@ -210,15 +250,11 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(MainActivity.this, SettingActivity.class);
             startActivity(intent);
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-        }/*else if (id == R.id.nav_record){
+        }else if (id == R.id.nav_record){
             Intent intent = new Intent(MainActivity.this, RecordActivity.class);
             startActivity(intent);
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-        }else if (id == R.id.nav_attendance){
-            Intent intent = new Intent(MainActivity.this, AttendanceActivity.class);
-            startActivity(intent);
-            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-        }*/
+        }
         return true;
     }
 }

@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 
 import com.hxq.reservation.R;
+import com.hxq.reservation.bean.Score;
 import com.hxq.reservation.bean.User;
 import com.hxq.reservation.util.ActivityCollector;
 import com.hxq.reservation.view.MainActivity;
@@ -154,13 +155,31 @@ public class LoginSetPasswdAty extends Activity implements
     }
 
     private void insertUser(){
+        user.setGameId(0);
         user.save(new SaveListener<String>() {
             @Override
             public void done(String s, BmobException e) {
                 if(e==null){
-                    Toast.makeText(LoginSetPasswdAty.this, "注册成功！", Toast.LENGTH_SHORT).show();
                     user.setObjectId(s);
+                    insertScore();
                     saveAccount();
+                }else{
+                    Toast.makeText(LoginSetPasswdAty.this, "注册失败！", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void insertScore(){
+        Score score = new Score();
+        score.setUserId(user.getObjectId());
+        score.setNickname(user.getNickName());
+        score.setScore(0);
+        score.save(new SaveListener<String>() {
+            @Override
+            public void done(String s, BmobException e) {
+                if(e==null){
+                    Toast.makeText(LoginSetPasswdAty.this, "注册成功！", Toast.LENGTH_SHORT).show();
                     ActivityCollector.finishAllActivity();
                     Intent intent = new Intent(LoginSetPasswdAty.this,MainActivity.class);
                     startActivity(intent);
@@ -184,6 +203,7 @@ public class LoginSetPasswdAty extends Activity implements
         editor.putString("password", user.getPassword());
         editor.putString("url",user.getImage().getFileUrl());
         editor.putString("imgName", user.getImage().getFilename());
+        editor.putInt("gameId", user.getGameId());
         editor.apply();
     }
 

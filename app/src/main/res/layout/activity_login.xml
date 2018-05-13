@@ -73,6 +73,6 @@
             android:text="登录"
             android:textColor="#ffff"
             android:layout_marginTop="15dp"
-            android:background="@drawable/bg_btn"/>
+            android:background="@drawable/bg_btn_login"/>
     </LinearLayout>
 </RelativeLayout>

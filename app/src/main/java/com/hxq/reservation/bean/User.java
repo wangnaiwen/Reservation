@@ -15,6 +15,9 @@ public class User extends BmobObject implements Serializable{
     private String nickName;
     private BmobFile image;
 
+    //到了第几关
+    private int gameId;
+
     public String getPhone() {
         return phone;
     }
@@ -45,5 +48,13 @@ public class User extends BmobObject implements Serializable{
 
     public void setImage(BmobFile image) {
         this.image = image;
+    }
+
+    public int getGameId() {
+        return gameId;
+    }
+
+    public void setGameId(int gameId) {
+        this.gameId = gameId;
     }
 }

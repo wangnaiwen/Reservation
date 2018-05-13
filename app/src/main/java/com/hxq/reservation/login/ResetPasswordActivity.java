@@ -196,6 +196,7 @@ public class ResetPasswordActivity  extends Activity implements
         editor.putString("password", newUser.getPassword());
         editor.putString("url",newUser.getImage().getFileUrl());
         editor.putString("imgName", newUser.getImage().getFilename());
+        editor.putInt("gameId", user.getGameId());
         editor.apply();
     }
 

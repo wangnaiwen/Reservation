@@ -99,7 +99,7 @@
             android:gravity="center"
             android:id="@+id/tv8" />
         <TextView
-            android:id="@+id/tv_9"
+            android:id="@+id/tv9"
             android:layout_width="288dp"
             android:layout_height="72dp"
             android:background="@drawable/bg_btn"
@@ -110,7 +110,7 @@
             android:gravity="center"/>
 
         <TextView
-            android:id="@+id/tv_10"
+            android:id="@+id/tv10"
             android:layout_width="72dp"
             android:layout_height="144dp"
             android:background="@drawable/bg_btn"

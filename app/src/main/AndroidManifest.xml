@@ -94,6 +94,8 @@
         <activity android:name=".login.RecoverPasswordGetCodeActivity"/>
 
         <service android:name=".service.MusicService"/>
+
+        <activity android:name=".view.RecordActivity"/>
     </application>
 
 </manifest>

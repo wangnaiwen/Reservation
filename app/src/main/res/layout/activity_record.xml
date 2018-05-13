@@ -11,6 +11,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:text="该日暂无考勤记录"
+        android:text="暂无闯关成功记录"
         android:visibility="gone"/>
 </LinearLayout>

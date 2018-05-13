@@ -1,8 +1,9 @@
 package com.hxq.reservation.view;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -10,9 +11,22 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.hxq.reservation.R;
+import com.hxq.reservation.bean.Record;
+import com.hxq.reservation.bean.Score;
+import com.hxq.reservation.bean.User;
+import com.hxq.reservation.config.Constans;
+import com.hxq.reservation.util.ScoreUtil;
 
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.datatype.BmobFile;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.SaveListener;
+import cn.bmob.v3.listener.UpdateListener;
 
 /**
  * Created by wnw on 2018/5/7.
@@ -22,7 +36,7 @@ public class TowActivity extends AppCompatActivity {
     private TextView timeTv;
     private String answer[] = new String[]{"10","5","4","6","11","2","1","3", "7","8","9"};
 
-    private static final int GAME_TIMEOUT_TIME = 300;
+    private static final int GAME_TIMEOUT_TIME = Constans.GAME_TIME_OUT;
 
     private TextView tv1;
     private TextView tv2;
@@ -42,7 +56,7 @@ public class TowActivity extends AppCompatActivity {
 
     //计时
     int i = 0;
-
+    private boolean isSuccessed = false;
     private Timer timer = new Timer();
 
     @Override
@@ -211,7 +225,11 @@ public class TowActivity extends AppCompatActivity {
             //答案正确
             if (j == answer.length -1){
                 //全部答对，上传记录时间, 跳转到下一关
-                uploadGameRecord();
+                isSuccessed = true;
+                createGameSuccessDialog(i);
+                uploadGameRecord(i);
+                updateGameId();
+                updateScore(i);
                 j ++;
                 return true;
             }else{
@@ -273,14 +291,107 @@ public class TowActivity extends AppCompatActivity {
     }
     //游戏超时
     private void gameTimeout(){
-        if (!dialog.isShowing() && !gameDialog.isShowing()){
-            dialog.show();
+        if (!isSuccessed){
+            if (!dialog.isShowing() && !gameDialog.isShowing()){
+                dialog.show();
+            }
         }
     }
 
     //上传游戏记录
-    private void uploadGameRecord(){
+    private void uploadGameRecord(int time){
+        SharedPreferences sharedPreferences = getSharedPreferences("account", MODE_PRIVATE);
 
+        Record record = new Record();
+        record.setGameId(sharedPreferences.getInt("gameId", 0) + 1);
+        record.setNickName(sharedPreferences.getString("nickname", ""));
+        record.setUserId(sharedPreferences.getString("id", ""));
+        record.setScore(ScoreUtil.getScore(time));
+        record.setTime(time);
+        record.save(new SaveListener<String>() {
+            @Override
+            public void done(String s, BmobException e) {
+                if (e != null){
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    private AlertDialog gameSuccessDialog;
+    private void createGameSuccessDialog(int time){
+        gameSuccessDialog = new AlertDialog.Builder(this)
+                .setMessage("恭喜您，闯关成功，" + "获得" + ScoreUtil.getScore(time) + "分")
+                .setTitle("闯关成功")
+                .setPositiveButton("下一关", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        startActivity(new Intent(TowActivity.this, ThreeActivity.class));
+                        finish();
+                    }
+                })
+                .setNegativeButton("休息一下", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        finish();
+                    }
+                }).create();
+        gameSuccessDialog.show();
+    }
+
+    //更新用户到达哪一关
+    private void updateGameId(){
+        SharedPreferences sharedPreferences = getSharedPreferences("account", MODE_PRIVATE);
+        User user = new User();
+        user.setObjectId(sharedPreferences.getString("id", ""));
+        user.setPhone(sharedPreferences.getString("phone", ""));
+        user.setNickName(sharedPreferences.getString("nickname", ""));
+        user.setPassword(sharedPreferences.getString("password", ""));
+        user.setGameId(sharedPreferences.getInt("gameId", 0) + 1);
+        BmobFile bmobFile = new BmobFile("user.png","","http://bmob-cdn-11142.b0.upaiyun.com/2017/05/04/fad104a0401e41ae80fa90ad05c62240.png");
+        user.setImage(bmobFile);
+        user.update(new UpdateListener() {
+            @Override
+            public void done(BmobException e) {
+                if (e != null){
+                    e.printStackTrace();
+                }
+            }
+        });
+        SharedPreferences.Editor editor = getSharedPreferences("account",
+                MODE_PRIVATE).edit();
+        editor.putInt("gameId", user.getGameId());
+        editor.apply();
+    }
+
+    private Score score;
+    private void updateScore(final int time){
+        SharedPreferences sharedPreferences = getSharedPreferences("account", MODE_PRIVATE);
+        String userId = sharedPreferences.getString("id", "");
+        BmobQuery<Score> query = new BmobQuery<>();
+        query.addWhereEqualTo("userId", userId);
+        query.findObjects(new FindListener<Score>() {
+            @Override
+            public void done(List<Score> list, BmobException e) {
+                if (list != null && e == null && list.size() != 0){
+                    score = list.get(0);
+                    updateGameScore(time);
+                }
+            }
+        });
+    }
+
+    //上传到总分榜
+    private void updateGameScore(int time){
+        score.setScore(ScoreUtil.getScore(time) + score.getScore());
+        score.update(new UpdateListener() {
+            @Override
+            public void done(BmobException e) {
+                if (e != null){
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     TimerTask timerTask = new TimerTask() {
@@ -299,6 +410,14 @@ public class TowActivity extends AppCompatActivity {
             });
         }
     };
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        timerTask.cancel();
+        timer.cancel();
+    }
 
     //开始计时
     private void startTime(){
