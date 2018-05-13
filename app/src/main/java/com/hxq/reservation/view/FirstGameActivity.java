@@ -3,6 +3,7 @@ package com.hxq.reservation.view;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -211,6 +212,7 @@ public class FirstGameActivity extends AppCompatActivity{
 
     //匹配答案
     private boolean checkAnswer(int a){
+        playSound();
         if (answer[j].equals(a+"")){
             //答案正确
             if (j == answer.length -1){
@@ -228,6 +230,12 @@ public class FirstGameActivity extends AppCompatActivity{
             gameOver();
             return false;
         }
+    }
+
+    //播放声音
+    private void playSound(){
+        MediaPlayer music = MediaPlayer.create(this, R.raw.qipao);
+        music.start();
     }
 
     /**

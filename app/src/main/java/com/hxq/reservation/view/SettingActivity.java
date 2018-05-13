@@ -6,7 +6,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +27,7 @@ public class SettingActivity extends Activity implements View.OnClickListener{
     private TextView aboutContacts;
     private TextView exitContacts;
     private ImageView backSetting;
+    private Switch musicSw;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,11 +49,33 @@ public class SettingActivity extends Activity implements View.OnClickListener{
         aboutContacts = (TextView)findViewById(R.id.about_contacts);
         exitContacts = (TextView)findViewById(R.id.exit_contacts);
         backSetting = (ImageView)findViewById(R.id.back_setting);
+        musicSw = (Switch) findViewById(R.id.sw_music);
+
+        if (getSharedPreferences("music", MODE_PRIVATE).getBoolean("music", false)){
+            musicSw.setChecked(true);
+        }else {
+            musicSw.setChecked(false);
+        }
 
         checkNewVersion.setOnClickListener(this);
         aboutContacts.setOnClickListener(this);
         exitContacts.setOnClickListener(this);
         backSetting.setOnClickListener(this);
+
+        musicSw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                SharedPreferences.Editor editor = getSharedPreferences("music",
+                        MODE_PRIVATE).edit();
+                if (b){
+                    editor.putBoolean("music", true);
+                }else {
+                    editor.putBoolean("music", false);
+                }
+                editor.apply();
+                finish();
+            }
+        });
     }
 
     @Override

@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 
 import com.hxq.reservation.R;
+import com.hxq.reservation.service.MusicService;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -48,7 +49,9 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         initView();
+
     }
+
 
     /**
      * 初始化控件
@@ -129,9 +132,37 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
+    /**
+     * 背景音乐
+     * */
+    private void playMusic(){
+        SharedPreferences sharedPreferences = getSharedPreferences("music", MODE_PRIVATE);
+        if (sharedPreferences.getBoolean("music", false)){
+            Intent intent = new Intent(this, MusicService.class);
+            startService(intent);
+        }else {
+            stopMusic();
+        }
+    }
+
+    /**
+     * 停止背景音乐
+     * */
+    private void stopMusic(){
+        Intent intent = new Intent(this, MusicService.class);
+        stopService(intent);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        stopService(new Intent(this, MusicService.class));
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
+        playMusic();
     }
 
     @Override

@@ -22,19 +22,36 @@
             android:layout_centerInParent="true"
             android:gravity="center"/>
     </RelativeLayout>
+    <Switch
+        android:id="@+id/sw_music"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="背景音乐"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:textColor="#252424"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/color_btn_normal"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:textColor="#252424"/>
     <TextView
         android:id="@+id/check_new_version"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:text="版本更新"
         android:gravity="center_vertical"
-        android:paddingLeft="15dp"/>
+        android:paddingLeft="15dp"
+        android:textColor="#252424"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:background="@color/color_btn_normal"
         android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"/>
+        android:layout_marginRight="8dp"
+        android:textColor="#252424"/>
 
     <TextView
         android:id="@+id/about_contacts"
@@ -42,13 +59,15 @@
         android:layout_height="50dp"
         android:text="关于游戏"
         android:gravity="center_vertical"
-        android:paddingLeft="15dp"/>
+        android:paddingLeft="15dp"
+        android:textColor="#252424"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:background="@color/color_btn_normal"
         android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"/>
+        android:layout_marginRight="8dp"
+        android:textColor="#252424"/>
 
     <TextView
         android:id="@+id/exit_contacts"
@@ -56,7 +75,8 @@
         android:layout_height="50dp"
         android:text="退出"
         android:gravity="center_vertical"
-        android:paddingLeft="15dp"/>
+        android:paddingLeft="15dp"
+        android:textColor="#252424"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
