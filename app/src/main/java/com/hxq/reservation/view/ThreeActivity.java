@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -195,6 +196,7 @@ public class ThreeActivity extends AppCompatActivity{
 
     //匹配答案
     private boolean checkAnswer(int a){
+        playSound();
         if (answer[j].equals(a+"")){
             //答案正确
             if (j == answer.length -1){
@@ -216,6 +218,12 @@ public class ThreeActivity extends AppCompatActivity{
             gameOver();
             return false;
         }
+    }
+
+    //播放声音
+    private void playSound(){
+        MediaPlayer music = MediaPlayer.create(this, R.raw.qipao);
+        music.start();
     }
 
     /**
