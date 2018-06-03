@@ -98,6 +98,8 @@
         <activity android:name=".view.RecordActivity"/>
 
         <activity android:name=".view.GameRuleActivity"/>
+        <activity android:name=".view.GuideActivity">
+        </activity>
     </application>
 
 </manifest>

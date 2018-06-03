@@ -137,16 +137,33 @@ public class MainActivity extends AppCompatActivity
     private void startGame(){
         SharedPreferences sharedPreferences = getSharedPreferences("account", MODE_PRIVATE);
         int gameId = sharedPreferences.getInt("gameId", 0);
+        boolean fistTime = sharedPreferences.getBoolean("fistTime", true);
+
         Log.e("Game", "开始游戏"+ gameId );
+
+        if (fistTime){
+            //首次，所以先进入新手模式
+            Toast.makeText(this, "正在开启新手引导", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(MainActivity.this, GuideActivity.class);
+            startActivity(intent);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            return;
+        }
+
         if (gameId == 0){
+            Toast.makeText(this, "第一关", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(this, FirstGameActivity.class));
         }else if (gameId == 1){
+            Toast.makeText(this, "第二关", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(this, TowActivity.class));
         }else if (gameId == 2){
+            Toast.makeText(this, "第三关", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(this, ThreeActivity.class));
         }else if (gameId == 3){
+            Toast.makeText(this, "第四关", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(this, FourActivity.class));
         }else if (gameId == 4){
+            Toast.makeText(this, "第五关", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(this, FiveActivity.class));
         }else {
             Toast.makeText(MainActivity.this, "您已通关，更多游戏，敬请期待！ ", Toast.LENGTH_SHORT).show();
@@ -251,6 +268,10 @@ public class MainActivity extends AppCompatActivity
             startActivity(intent);
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             return true;
+        }else if (id == R.id.action_game_study){
+            Intent intent = new Intent(MainActivity.this, GuideActivity.class);
+            startActivity(intent);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         }
         return super.onOptionsItemSelected(item);
     }

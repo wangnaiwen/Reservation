@@ -11,4 +11,9 @@
         android:orderInCategory="100"
         android:title="游戏规则"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_game_study"
+        android:orderInCategory="100"
+        android:title="新手引导"
+        app:showAsAction="never" />
 </menu>
